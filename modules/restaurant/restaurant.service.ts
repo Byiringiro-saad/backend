@@ -1,9 +1,11 @@
 import Joi from "joi";
 
 //model
+import userModel from "../user/user.model";
 import restaurantModel from "./restaurant.model";
 
 class RestaurantServices {
+  private user = userModel;
   private restaurant = restaurantModel;
 
   public validateRestaurant = async (data: any) => {
@@ -26,12 +28,18 @@ class RestaurantServices {
   };
 
   public createRestaurant = async (data: any) => {
+    const user = await this.user.findOneAndUpdate(
+      { _id: data.owner_id },
+      { role: "admin" },
+      { new: true }
+    );
+
     return await new this.restaurant({
       name: data.name,
       type: data.type,
       logo: data.logo,
+      owner_id: user?._id,
       location: data.location,
-      owner_id: data.owner_id,
       open_time: data.open_time,
       full_name: data.full_name,
       close_time: data.close_time,
