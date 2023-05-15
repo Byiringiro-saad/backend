@@ -22,6 +22,7 @@ class UserController implements Controller {
 
   public initializeRoutes = () => {
     this.router.post(`/`, this.createUser);
+    this.router.get(`/`, this.getAllUsers);
     this.router.post(`/login`, this.login);
   };
 
@@ -93,6 +94,25 @@ class UserController implements Controller {
         });
     } catch (error: any) {
       return res.status(400).json({ message: error.message });
+    }
+  };
+
+  private getAllUsers = async (req: Request, res: Response) => {
+    try {
+      this.user
+        .find({})
+        .then((users) => {
+          return res.status(200).json({
+            users: users,
+          });
+        })
+        .catch((err) => {
+          throw new Error(err.message);
+        });
+    } catch (error: any) {
+      return res.status(400).json({
+        message: error.message,
+      });
     }
   };
 }

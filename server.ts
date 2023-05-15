@@ -1,7 +1,7 @@
 import App from "./app";
 
 //controllers
-import userController from "./modules/users/user.controller";
+import userController from "./modules/user/user.controller";
 
 const app = new App([new userController()]);
 
