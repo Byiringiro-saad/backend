@@ -6,21 +6,26 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
+  role: {
+    type: String,
+    required: true,
+    enum: ["user", "admin"],
+  },
   lname: {
     type: String,
-    required: false,
+    required: true,
   },
   phone: {
     type: String,
-    required: false,
+    required: true,
   },
   email: {
     type: String,
-    required: false,
+    required: true,
   },
   password: {
     type: String,
-    required: false,
+    required: true,
   },
 });
 

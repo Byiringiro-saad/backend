@@ -1,5 +1,6 @@
 interface User {
   _id?: string;
+  role: string;
   fname: string;
   lname: string;
   phone: string;

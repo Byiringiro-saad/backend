@@ -28,6 +28,7 @@ class UserController implements Controller {
 
   private createUser = async (req: Request, res: Response) => {
     const data = {
+      role: "user",
       fname: req.body.fname,
       lname: req.body.lname,
       phone: req.body.phone,

@@ -14,6 +14,7 @@ class UserServices {
   public validateSignup = async (data: User) => {
     const schema = Joi.object({
       fname: Joi.string().required(),
+      role: Joi.string().required(),
       lname: Joi.string().required(),
       phone: Joi.string().required(),
       email: Joi.string().required(),
@@ -35,6 +36,7 @@ class UserServices {
   public createUser = async (data: User) => {
     const hashedPassword = await bcrypt.hash(data.password, 10);
     return await new this.user({
+      role: data.role,
       fname: data.fname,
       lname: data.lname,
       phone: data.phone,
