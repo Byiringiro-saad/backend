@@ -8,6 +8,10 @@ const SeatSchema = new Schema({
     type: String,
     required: true,
   },
+  served: {
+    type: Boolean,
+    default: false,
+  },
   status: {
     type: String,
     required: true,

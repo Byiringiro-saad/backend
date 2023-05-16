@@ -9,6 +9,11 @@ const cartSchema = new Schema({
     ref: "User",
     required: true,
   },
+  restaurant: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Restaurant",
+    required: true,
+  },
   product: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Product",

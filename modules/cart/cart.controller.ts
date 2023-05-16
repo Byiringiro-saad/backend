@@ -2,6 +2,7 @@ import { Request, Response, Router } from "express";
 
 //models
 import cartModel from "./cart.model";
+import orderModel from "../order/order.model";
 
 //interfaces
 import Controller from "../../interfaces/controller.interface";
@@ -10,6 +11,7 @@ class cartController implements Controller {
   public path = "carts";
   public router = Router();
   public cart = cartModel;
+  public order = orderModel;
 
   constructor() {
     this.initializeRoutes();
@@ -40,6 +42,7 @@ class cartController implements Controller {
       user: req.body.user,
       product: req.body.product,
       quantity: req.body.quantity,
+      restaurant: req.body.restaurant,
     };
 
     try {
@@ -50,7 +53,27 @@ class cartController implements Controller {
     }
   };
 
-  private checkout = async (req: Request, res: Response) => {};
+  private checkout = async (req: Request, res: Response) => {
+    const data = {
+      status: "pending",
+      user: req.body.user,
+      seat: req.body.seat,
+      price: req.body.price,
+      products: [...req.body.cart],
+      restaurant: req.body.restaurant,
+    };
+
+    try {
+      const order = await new this.order(data).save();
+      const result = await this.cart.deleteMany({
+        user: req.body.user,
+        restaurant: req.body.restaurant,
+      });
+      return res.status(200).json({ order, result });
+    } catch (error: any) {
+      return res.status(400).json({ message: error.message });
+    }
+  };
 
   private removeFromCart = async (req: Request, res: Response) => {
     const data = {

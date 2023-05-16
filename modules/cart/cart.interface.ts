@@ -3,6 +3,7 @@ interface Cart {
   user: string;
   product: string;
   quantity: number;
+  restaurant: string;
 }
 
 export default Cart;
