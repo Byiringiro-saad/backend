@@ -26,6 +26,7 @@ class RestaurantController implements Controller {
   public initializeRoutes = () => {
     this.router.get(`/:id`, this.getRestaurant);
     this.router.get(`/`, this.getAllRestaurants);
+    this.router.post(`/search`, this.searchRestaurant);
     this.router.post(`/`, multerUpload.single("logo"), this.createRestaurant);
   };
 
@@ -93,6 +94,25 @@ class RestaurantController implements Controller {
     try {
       this.restaurant
         .findOne(data)
+        .then((result) => {
+          return res.status(200).json({ result });
+        })
+        .catch((err) => {
+          return res.status(400).json({ message: err.message });
+        });
+    } catch (error: any) {
+      return res.status(400).json({ message: error.message });
+    }
+  };
+
+  private searchRestaurant = async (req: Request, res: Response) => {
+    const data = {
+      name: req.body.name,
+    };
+
+    try {
+      this.restaurant
+        .find({ name: { $regex: data.name, $options: "i" } })
         .then((result) => {
           return res.status(200).json({ result });
         })
