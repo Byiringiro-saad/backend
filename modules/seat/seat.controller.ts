@@ -19,6 +19,7 @@ class SeatController implements Controller {
     this.router.get(`/:id`, this.getSeat);
     this.router.post(`/`, this.createSeat);
     this.router.post(`/book`, this.bookSeat);
+    this.router.post(`/take`, this.takeSeat);
     this.router.get(`/all/:id`, this.getAllSeats);
   };
 
@@ -61,9 +62,24 @@ class SeatController implements Controller {
 
   private bookSeat = async (req: Request, res: Response) => {
     const data = {
-      seat: req.body.seat,
       status: "booked",
+      seat: req.body.seat,
       booked_by: req.body.user,
+    };
+
+    try {
+      const result = await this.seat.updateOne({ _id: data.seat }, data);
+      return res.status(200).json({ result });
+    } catch (error: any) {
+      return res.status(400).json({ message: error.message });
+    }
+  };
+
+  private takeSeat = async (req: Request, res: Response) => {
+    const data = {
+      status: "taken",
+      seat: req.body.seat,
+      taken_by: req.body.user,
     };
 
     try {

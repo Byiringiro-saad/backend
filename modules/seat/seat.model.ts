@@ -11,7 +11,7 @@ const SeatSchema = new Schema({
   status: {
     type: String,
     required: true,
-    enum: ["available", "booked"],
+    enum: ["available", "booked", "taken"],
   },
   booked_by: {
     type: mongoose.Schema.Types.ObjectId,
