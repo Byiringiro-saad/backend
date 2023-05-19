@@ -21,6 +21,7 @@ class UserController implements Controller {
   }
 
   public initializeRoutes = () => {
+    this.router.get("/:id", this.getUser);
     this.router.post(`/`, this.createUser);
     this.router.get(`/`, this.getAllUsers);
     this.router.post(`/login`, this.login);
@@ -118,6 +119,25 @@ class UserController implements Controller {
         message: error.message,
       });
     }
+  };
+
+  private getUser = async (req: Request, res: Response) => {
+    const data = {
+      id: req.params.id,
+    };
+
+    this.user
+      .findOne({ _id: data.id })
+      .then((user) => {
+        return res.status(200).json({
+          user: user,
+        });
+      })
+      .catch((error) => {
+        return res.status(400).json({
+          message: error.message,
+        });
+      });
   };
 }
 
