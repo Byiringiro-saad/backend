@@ -78,7 +78,10 @@ class UserController implements Controller {
                 );
                 if (isPasswordValid) {
                   const token = await this.services.generateToken(result);
-                  return res.status(200).json({ token });
+                  const hasRestaurant = await this.services.hasRestaurant(
+                    result._id
+                  );
+                  return res.status(200).json({ token, hasRestaurant });
                 } else {
                   return res.status(400).json({ message: "Invalid password" });
                 }

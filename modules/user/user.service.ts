@@ -7,9 +7,11 @@ import User from "./user.interface";
 
 //models
 import userModel from "./user.model";
+import restaurantModel from "../restaurant/restaurant.model";
 
 class UserServices {
   private user = userModel;
+  private restaurant = restaurantModel;
 
   public validateSignup = async (data: User) => {
     const schema = Joi.object({
@@ -48,6 +50,15 @@ class UserServices {
   public generateToken = async (data: User) => {
     const token = jwt.sign({ _id: data._id }, `${process.env.JWT_SECRET}`);
     return token;
+  };
+
+  public hasRestaurant = async (data: User) => {
+    const owner = await this.restaurant.findOne({ owner_id: data._id });
+    if (owner) {
+      return true;
+    } else {
+      return false;
+    }
   };
 }
 
