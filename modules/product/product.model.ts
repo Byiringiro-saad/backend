@@ -25,7 +25,7 @@ const productSchema = new Schema({
     ref: "Restaurant",
     required: true,
   },
-  description: {
+  ingredients: {
     type: String,
     required: true,
   },

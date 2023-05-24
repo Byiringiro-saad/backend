@@ -5,7 +5,7 @@ interface Product {
   price: number;
   category: string;
   restaurant: string;
-  description: string;
+  ingredients: string;
 }
 
 export default Product;

@@ -39,6 +39,7 @@ class RestaurantController implements Controller {
       logo: imageURL,
       name: req.body.name,
       type: req.body.type,
+      menu: req.body.menu,
       location: req.body.location,
       owner_id: req.body.owner_id,
       open_time: req.body.open_time,

@@ -29,7 +29,7 @@ class productService {
       price: data.price,
       category: data.category,
       restaurant: data.restaurant,
-      description: data.description,
+      ingredients: data.ingredients,
     }).save();
   };
 }
