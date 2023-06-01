@@ -7,8 +7,8 @@ import productModel from "./product.model";
 import productService from "./product.service";
 
 //middlewares
+import cloudinary from "../../middlewares/cloudinary";
 import { multerUpload } from "../../middlewares/multer";
-import cloudinaryInstance from "../../middlewares/cloudinary";
 
 //interfaces
 import Controller from "../../interfaces/controller.interface";
@@ -26,13 +26,35 @@ class productController implements Controller {
   public initializeRoutes = () => {
     this.router.get(`/:id`, this.getProduct);
     this.router.get(`/`, this.getAllProducts);
+    this.router.post(`/many`, multerUpload.any(), this.createProducts);
     this.router.post(`/`, multerUpload.single("image"), this.createProduct);
+  };
+
+  private createProducts = async (req: Request, res: Response) => {
+    const data = {
+      files: req.files,
+      menu: req.body.menu,
+      restaurant: req.body.restaurant,
+    };
+
+    try {
+      this.service
+        .createProducts(data)
+        .then((result) => {
+          return res.status(200).json({ result });
+        })
+        .catch((err) => {
+          return res.status(400).json({ message: err.message });
+        });
+    } catch (error: any) {
+      return res.status(400).json({ message: error.message });
+    }
   };
 
   private createProduct = async (req: Request, res: Response) => {
     const localFilePath = req.file?.path || "";
 
-    const { imageURL } = await cloudinaryInstance.uploadImage(localFilePath);
+    const { imageURL } = await cloudinary.uploadImage(localFilePath);
 
     const data = {
       image: imageURL,

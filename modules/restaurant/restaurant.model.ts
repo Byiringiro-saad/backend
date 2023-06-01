@@ -10,16 +10,13 @@ const restaurantSchema = new Schema({
   },
   type: {
     type: String,
-    required: true,
     enum: ["restaurant", "cafe", "bakery"],
   },
   logo: {
     type: String,
-    required: true,
   },
   location: {
     type: String,
-    required: true,
   },
   owner_id: {
     type: mongoose.Schema.Types.ObjectId,
@@ -28,7 +25,6 @@ const restaurantSchema = new Schema({
   },
   open_time: {
     type: String,
-    required: true,
   },
   full_name: {
     type: String,
@@ -36,7 +32,6 @@ const restaurantSchema = new Schema({
   },
   close_time: {
     type: String,
-    required: true,
   },
   owner_name: {
     type: String,

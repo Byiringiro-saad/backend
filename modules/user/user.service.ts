@@ -15,15 +15,23 @@ class UserServices {
 
   public validateSignup = async (data: User) => {
     const schema = Joi.object({
-      fname: Joi.string().required(),
       role: Joi.string().required(),
+      fname: Joi.string().required(),
       lname: Joi.string().required(),
       phone: Joi.string().required(),
       email: Joi.string().required(),
       password: Joi.string().required(),
     });
 
-    return await schema.validateAsync(data);
+    const response = await schema.validateAsync(data);
+
+    const user = await this.user.findOne({ email: response.email });
+
+    if (user) {
+      return new Error("User already exists");
+    } else {
+      return response;
+    }
   };
 
   public validateLogin = async (data: { email: string; password: string }) => {
