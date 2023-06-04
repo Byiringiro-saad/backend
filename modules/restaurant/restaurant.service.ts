@@ -3,7 +3,6 @@ import Joi from "joi";
 //model
 import userModel from "../user/user.model";
 import restaurantModel from "./restaurant.model";
-import { log } from "console";
 
 class RestaurantServices {
   private user = userModel;
@@ -53,7 +52,7 @@ class RestaurantServices {
     const restaurant = await this.restaurant.findOneAndUpdate(
       { _id: data.restaurant },
       {
-        logo: data.logo,
+        // logo: data.logo,
         type: data.type,
         location: data.location,
         open_time: data.opening,

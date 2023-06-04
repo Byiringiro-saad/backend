@@ -31,7 +31,6 @@ class RestaurantController implements Controller {
     this.router.post(`/one`, authMiddleWare, this.createRestaurantOne);
     this.router.post(
       `/two`,
-      authMiddleWare,
       multerUpload.single("file"),
       this.createRestaurantTwo
     );
@@ -63,12 +62,12 @@ class RestaurantController implements Controller {
   };
 
   private createRestaurantTwo = async (req: Request, res: Response) => {
-    const localFilePath = req.file?.path || "";
+    // const localFilePath = req.file?.path || "";
 
-    const { imageURL } = await cloudinary.uploadImage(localFilePath);
+    // const { imageURL } = await cloudinary.uploadImage(localFilePath);
 
     const data = {
-      logo: imageURL,
+      // logo: imageURL,
       type: req.body.type,
       opening: req.body.opening,
       closing: req.body.closing,

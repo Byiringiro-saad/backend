@@ -26,13 +26,13 @@ class productController implements Controller {
   public initializeRoutes = () => {
     this.router.get(`/:id`, this.getProduct);
     this.router.get(`/`, this.getAllProducts);
-    this.router.post(`/many`, multerUpload.any(), this.createProducts);
+    this.router.post(`/many`, this.createProducts);
     this.router.post(`/`, multerUpload.single("image"), this.createProduct);
   };
 
   private createProducts = async (req: Request, res: Response) => {
     const data = {
-      files: req.files,
+      // files: req.files,
       menu: req.body.menu,
       restaurant: req.body.restaurant,
     };
