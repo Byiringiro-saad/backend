@@ -26,7 +26,7 @@ class SeatController implements Controller {
   private createSeats = async (req: Request, res: Response) => {
     const data = {
       seats: req.body.seats,
-      status: "available",
+      status: "Free",
       restaurant: req.body.restaurant,
     };
 
