@@ -25,7 +25,7 @@ class productController implements Controller {
 
   public initializeRoutes = () => {
     this.router.get(`/:id`, this.getProduct);
-    this.router.get(`/`, this.getAllProducts);
+    this.router.get(`/restaurant/:restaurant`, this.getAllProducts);
     this.router.post(`/many`, this.createProducts);
     this.router.post(`/`, multerUpload.single("image"), this.createProduct);
   };
@@ -87,11 +87,15 @@ class productController implements Controller {
   };
 
   private getAllProducts = async (req: Request, res: Response) => {
+    const data = {
+      id: req.params.restaurant,
+    };
+
     try {
       this.product
-        .find({})
+        .find({ restaurant: data.id })
         .then((result) => {
-          return res.status(200).json({ result });
+          return res.status(200).json({ menus: result });
         })
         .catch((err) => {
           throw new Error(err.message);
