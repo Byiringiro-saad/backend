@@ -8,30 +8,38 @@ import Controller from "../../interfaces/controller.interface";
 
 class SeatController implements Controller {
   public path = "seats";
-  public router = Router();
   public seat = SeatModel;
+  public router = Router();
 
   constructor() {
     this.initializeRoutes();
   }
 
   public initializeRoutes = () => {
+    this.router.post(`/`, this.createSeats);
     this.router.get(`/:id`, this.getSeat);
-    this.router.post(`/`, this.createSeat);
     this.router.post(`/book`, this.bookSeat);
     this.router.post(`/take`, this.takeSeat);
     this.router.get(`/all/:id`, this.getAllSeats);
   };
 
-  private createSeat = async (req: Request, res: Response) => {
+  private createSeats = async (req: Request, res: Response) => {
     const data = {
-      name: req.body.name,
+      seats: req.body.seats,
       status: "available",
       restaurant: req.body.restaurant,
     };
 
+    const seats = data?.seats?.map((seat: any) => {
+      return {
+        name: seat,
+        status: data?.status,
+        restaurant: data?.restaurant,
+      };
+    });
+
     try {
-      const result = await new this.seat(data).save();
+      const result = await this.seat.insertMany(seats);
       return res.status(200).json({ result });
     } catch (error: any) {
       return res.status(400).json({ message: error.message });
