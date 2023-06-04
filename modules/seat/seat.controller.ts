@@ -54,7 +54,7 @@ class SeatController implements Controller {
 
     try {
       const result = await this.seat.find({ restaurant: id });
-      return res.status(200).json({ result });
+      return res.status(200).json({ seats: result });
     } catch (error: any) {
       return res.status(400).json({ message: error.message });
     }

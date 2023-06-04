@@ -63,7 +63,7 @@ class UserServices {
   public hasRestaurant = async (data: User) => {
     const owner = await this.restaurant.findOne({ owner_id: data._id });
     if (owner) {
-      return true;
+      return owner;
     } else {
       return false;
     }

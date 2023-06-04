@@ -4,6 +4,9 @@ import { Request, Response, Router } from "express";
 import orderModel from "./order.model";
 import SeatModel from "../seat/seat.model";
 
+//middlewares
+import authMiddleWare from "../../middlewares/auth";
+
 // interfaces
 import Controller from "../../interfaces/controller.interface";
 
@@ -20,7 +23,7 @@ class orderController implements Controller {
   public initializeRoutes = () => {
     this.router.get(`/:id`, this.getOrder);
     this.router.post(`/serve`, this.serveOrder);
-    this.router.get(`/all/:id`, this.getAllOrders);
+    this.router.get(`/all/:id`, authMiddleWare, this.getAllOrders);
   };
 
   private getOrder = async (req: Request, res: Response) => {
@@ -39,7 +42,7 @@ class orderController implements Controller {
 
     try {
       const result = await this.order.find({ restaurant: id });
-      return res.status(200).json({ result });
+      return res.status(200).json({ orders: result });
     } catch (error: any) {
       return res.status(400).json({ message: error.message });
     }
